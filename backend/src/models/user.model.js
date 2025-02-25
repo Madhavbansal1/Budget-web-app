@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         default: Date.now
     },
     role:{
-        typ: String,
+        type: String,
         enum: ["individual","family member"],
         default: "individual"
     },
@@ -42,10 +42,10 @@ const userSchema = new mongoose.Schema({
         ref:"JointFamily",
         default: null
     },
-    budgets:{
+    budgets:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Budget"
-    }// ref from budget
+    }]// ref from budget
 
 },
 {

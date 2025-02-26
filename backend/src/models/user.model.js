@@ -24,6 +24,9 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    password:{
+        type: string
+    },
     role:{
         type: String,
         enum: ["individual","family member"],

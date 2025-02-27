@@ -61,4 +61,29 @@ const update = async (req, res) => {
     }
 };
 
-export { signup };
+const form  = async(req,res)=>{
+    try {
+        const token = req.header.authorisation
+        if (!token || !token.startsWith("Bearer ")) {
+            throw new ApiError(401, "No token provided");
+        }
+
+        const clerkId = token.split(" ")[1];
+
+        const {role} = req.body
+        if(!role){
+            throw new ApiError(401, "No role provided");
+        }
+
+        const updateUser = await User.findOneAndUpdate({clerkId},{role});
+
+        return res.status(200).json(new ApiResponse(200,updateUser,"role added successfully"));
+        
+    } catch (error) {
+        return res.status(error.statusCode || 500).json(new ApiError(error.statusCode || 500, error.message))
+    }
+};
+
+
+
+export { signup , update, form};

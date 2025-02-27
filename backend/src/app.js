@@ -21,9 +21,10 @@ app.use(express.static("public"));
 
 
 //import routes
+import userRoute from "./routes/user.route.js"
 
 
 // route declaration
-
+app.use("/user",userRoute);
 
 export default app;

@@ -1,10 +1,11 @@
 import React from "react";
+import axios from "axios"; // ✅ Import axios
 import {
     SignedIn,
     SignedOut,
     SignInButton,
     UserButton,
-    useUser, // ✅ Import useUser
+    useUser,
 } from "@clerk/clerk-react";
 
 function Login() {
@@ -13,7 +14,7 @@ function Login() {
     const sendUserDataToBackend = async () => {
         if (!user) return;
 
-        console.log(user)
+        console.log(user);
 
         const userData = {
             clerkId: user.id,
@@ -21,25 +22,26 @@ function Login() {
             lastName: user.lastName,
             imgUrl: user.profileImageUrl,
             email: user.primaryEmailAddress?.emailAddress ?? "",
-            // Clerk does not provide password directly for security reasons
-            // password: user.password
         };
-        console.log(userData)
 
-        // try {
-        //     const response = await fetch("http://localhost:5000/api/auth/clerk-login", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(userData),
-        //     });
+        console.log(userData);
 
-        //     const data = await response.json();
-        //     console.log("User stored in backend:", data);
-        // } catch (error) {
-        //     console.error("Error sending user data:", error);
-        // }
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/user/signup",
+                userData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authorisation": user.id, // ✅ Use user.id instead of undefined clerkId
+                    },
+                }
+            );
+
+            console.log("User stored in backend:", response.data); // ✅ Use response.data instead of response.json()
+        } catch (error) {
+            console.error("Error sending user data:", error.response?.data || error.message);
+        }
     };
 
     return (

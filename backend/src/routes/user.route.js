@@ -8,8 +8,8 @@ const router = Router();
 
 
 router.post("/signup", signup);
-router.update("/update",update)
-router.update("/form",form)
+router.post("/update",update)
+router.post("/form",form)
 
 
 router.post

@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         default: Date.now
     },
     password:{
-        type: string
+        type: String
     },
     role:{
         type: String,
